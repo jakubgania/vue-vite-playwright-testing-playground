@@ -15,4 +15,16 @@ test('check meta tags and title in the <head>', async ({ page }) => {
   expect(metaKeywords).toBe('vite, vue, playwright');
   const metaAuthor = await page.locator('meta[name="author"]').getAttribute('content');
   expect(metaAuthor).toBe('John Doe')
+});
+
+test('increments the button count', async ({ page }) => {
+  await page.goto('http://localhost:5173');
+  const button = page.locator('[data-testid="increment-btn"]');
+  await expect(button).toHaveText('count is 0');
+  await button.click();
+  await expect(button).toHaveText('count is 1');
+  await button.click();
+  await expect(button).toHaveText('count is 2');
+  await button.click();
+  await expect(button).toHaveText('count is 3');
 })

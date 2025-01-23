@@ -4,7 +4,7 @@ export default defineConfig({
   testDir: './tests/e2e',
   use: {
     launchOptions: {
-      slowMo: 4000
+      slowMo: 1000
     }
   }
 })
