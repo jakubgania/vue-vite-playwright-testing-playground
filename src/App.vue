@@ -3,6 +3,7 @@
   <div class="sidebar">
     <RouterLink to="/">Home</RouterLink>
     <RouterLink to="/next">Next</RouterLink>
+    <RouterLink to="/github">GitHub</RouterLink>
   </div>
 
   <!-- content -->
