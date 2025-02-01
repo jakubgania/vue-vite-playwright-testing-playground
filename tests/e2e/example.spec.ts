@@ -28,3 +28,10 @@ test('increments the button count', async ({ page }) => {
   await button.click();
   await expect(button).toHaveText('count is 3');
 })
+
+test('check vite link for logo', async ({ page }) => {
+  await page.goto('http://localhost:5173');
+  const linkViteLogoIcon = page.locator('[data-testid="logo-vite-link"]');
+  await expect(linkViteLogoIcon).toHaveAttribute('href', 'https://vite.dev');
+  await expect(linkViteLogoIcon).toHaveAttribute('target', '_blank');
+});
