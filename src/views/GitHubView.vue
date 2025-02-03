@@ -21,6 +21,13 @@
     </div>
     <!-- <div v-if="displayValue">{{ displayValue }}</div> -->
     
+    <div v-if="repositories" class="item">
+      <h2>Repositories</h2>
+      <div v-for="repository in repositories">
+        <p>{{ repository.name }}</p>
+        <!-- <p>{{ repository.description }}</p> -->
+      </div>
+    </div>
     <div v-if="followers" class="item">
       <h2>Followers</h2>
       <div v-for="follower in followers">
@@ -49,6 +56,7 @@
         </div>
       </div>
     </div>
+    <div v-if="loading">Loading...</div>
   </div>
 </template>
 
@@ -58,6 +66,8 @@ import { ref } from 'vue';
 const inputValue = ref("")
 const displayValue = ref("")
 const userData = ref(null)
+const loading = ref(false)
+const repositories = ref([])
 const followers = ref([])
 const following = ref([])
 
@@ -67,6 +77,7 @@ const showValue = () => {
 }
 
 const fetchUserData = async () => {
+  loading.value = true
   userData.value = null
   try {
     const response = await fetch(`https://api.github.com/users/${inputValue.value}`)
@@ -76,11 +87,14 @@ const fetchUserData = async () => {
     userData.value = await response.json()
 
     await Promise.all([
+      fetchList(`https://api.github.com/users/${inputValue.value}/repos?per_page=8`, repositories),
       fetchList(`https://api.github.com/users/${inputValue.value}/followers?per_page=8`, followers),
       fetchList(`https://api.github.com/users/${inputValue.value}/following?per_page=8`, following)
     ]);
   } catch (err) {
     console.log("error")
+  } finally {
+    loading.value = false
   }
 }
 

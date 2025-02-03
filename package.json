@@ -8,7 +8,7 @@
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
     "test:unit": "vitest",
-    "test:e2e": "playwright test --headed"
+    "test:e2e": "playwright test --headed github.spec.ts"
   },
   "dependencies": {
     "vue": "^3.5.13",
