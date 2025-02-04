@@ -21,14 +21,14 @@
     </div>
     <!-- <div v-if="displayValue">{{ displayValue }}</div> -->
     
-    <div v-if="repositories" class="item">
+    <div v-if="repositories.length" class="item">
       <h2>Repositories</h2>
       <div v-for="repository in repositories">
         <p>{{ repository.name }}</p>
-        <!-- <p>{{ repository.description }}</p> -->
+        <a :href="repository.html_url" target="_blank">Link to profile</a>
       </div>
     </div>
-    <div v-if="followers" class="item">
+    <div v-if="followers.length" class="item">
       <h2>Followers</h2>
       <div v-for="follower in followers">
         <div class="profile-section">
@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-    <div v-if="following" class="item">
+    <div v-if="following.length" class="item">
       <h2>Following</h2>
       <div v-for="profile in following">
         <div class="profile-section">
@@ -56,6 +56,7 @@
         </div>
       </div>
     </div>
+    <div v-if="error">{{ error }}</div>
     <div v-if="loading">Loading...</div>
   </div>
 </template>
@@ -70,6 +71,7 @@ const loading = ref(false)
 const repositories = ref([])
 const followers = ref([])
 const following = ref([])
+const error = ref(null)
 
 const showValue = () => {
   console.log(displayValue)
@@ -79,10 +81,13 @@ const showValue = () => {
 const fetchUserData = async () => {
   loading.value = true
   userData.value = null
+  error.value = null
+
   try {
     const response = await fetch(`https://api.github.com/users/${inputValue.value}`)
     if (!response.ok) {
-      console.log("request error")
+      const errorData = await response.json()
+      throw new Error(errorData.message || `HTTP error! status ${response.status}`);
     }
     userData.value = await response.json()
 
@@ -92,7 +97,8 @@ const fetchUserData = async () => {
       fetchList(`https://api.github.com/users/${inputValue.value}/following?per_page=8`, following)
     ]);
   } catch (err) {
-    console.log("error")
+    error.value = err.message
+    console.error("Error fetching user data:", err.message)
   } finally {
     loading.value = false
   }
@@ -126,7 +132,7 @@ const seeThisProfile = (login: string) => {
 .item {
   display: flex;
   flex-direction: column;
-  /* width: 100%; */
+  width: 100vw;
   max-width: 360px;
 }
 .profile-section {
