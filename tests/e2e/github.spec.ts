@@ -69,11 +69,11 @@ test.describe('tests for github route', () => {
     // await page.waitForTimeout(2000);
     await page.waitForSelector('h2');
     // await page.waitForTimeout(2000);
-    await expect(page.locator('.item h2').first()).toHaveText('jakubgania');
+    // await expect(page.locator('.item h2').first()).toHaveText('jakubgania');
     // await page.waitForTimeout(2000);
   
-    // await expect(page.locator('h2').first()).toHaveText('jakubgania');
-    // await expect(page.locator('h2')).toHaveText('jakubgania');
+    await expect(page.locator('h2').first()).toHaveText('jakubgania');
+  
   })
 })
 

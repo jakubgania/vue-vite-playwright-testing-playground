@@ -8,7 +8,7 @@
       <div v-if="userData">
         <h2>{{ userData.login }}</h2>
         <img :src="userData.avatar_url" alt="Avatar" width="180">
-        <p>Name: {{ userData.name || 'Not available' }}</p>
+        <p data-testid="github-username">Name: {{ userData.name || 'Not available' }}</p>
         <p>Bio: {{ userData.bio || 'Not available' }}</p>
         <p>Blog: {{ userData.blog || 'Not available' }}</p>
         <p>X username: {{ userData.twitter_username || 'Not available' }}</p>
